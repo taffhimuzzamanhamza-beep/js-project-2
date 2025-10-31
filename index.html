@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bare Minimum Analysis</title>
+</head>
+<body>
+
+    <h1>Text Analysis Tool (Minimal)</h1>
+
+    <textarea id="sentenceInput" rows="3" cols="50" placeholder="Enter sentence..."></textarea><br><br>
+    
+    <input type="text" id="wordToFind" placeholder="Word to Find">
+    <input type="text" id="replacementWord" placeholder="Replacement">
+    <input type="text" id="substringCheck" placeholder="Substring to Check"><br><br>
+
+    <button onclick="analyzeText()">Analyze Text</button>
+
+    <h2>Results</h2>
+    <textarea id="resultsOutput" rows="8" cols="50" readonly></textarea>
+
+    <script>
+        
+        const sentenceInput = document.getElementById('sentenceInput');
+        const wordToFind = document.getElementById('wordToFind');
+        const replacementWord = document.getElementById('replacementWord');
+        const substringCheck = document.getElementById('substringCheck');
+        const resultsOutput = document.getElementById('resultsOutput');
+
+        function analyzeText() {
+            
+            const text = sentenceInput.value;
+            const find = wordToFind.value;
+            const replace = replacementWord.value;
+            const check = substringCheck.value;
+            
+           
+            const count = text.split(/\s+/).filter(w => w !== '').length;
+
+            
+            let newText = text;
+            if (find && replace) {
+                
+                const searchRegex = new RegExp(find, 'gi');
+                newText = text.replace(searchRegex, replace);
+            }
+
+            
+            const isPresent = text.includes(check);
+            const presence = check ? (isPresent ? 'YES' : 'NO') : 'N/A';
+            
+            
+            resultsOutput.value = `
+--- Analysis Results ---
+
+Original:
+${text}
+
+1. Word Count: ${count} words
+
+2. Replacement (Find: "${find || 'N/A'}" -> "${replace || 'N/A'}"):
+Result: ${newText}
+
+3. Substring "${check || 'N/A'}" Presence:
+Status: ${presence}
+`;
+        }
+    </script>
+</body>
+</html>
